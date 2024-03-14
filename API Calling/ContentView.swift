@@ -15,7 +15,7 @@ struct ContentView: View {
             List(facts, id: \.self) { fact in
                 Text(fact)
             }
-            navigationTitle("Cat Facts")
+            .navigationTitle("Cat Facts")
                 .toolbar {
                     Button(action: {
                         Task {
@@ -37,7 +37,8 @@ struct ContentView: View {
     }
     
     func loadData() async {
-        if let url = URL(string: "https://meowfacts.herokuapp.com/?count=20") {
+        let query = "https://meowfacts.herokuapp.com/?count=20"
+        if let url = URL(string: query) {
             if let (data, _) = try? await URLSession.shared.data(from: url) {
                 if let decodedResponse = try? JSONDecoder().decode(Facts.self, from: data) {
                     facts = decodedResponse.facts
@@ -46,12 +47,6 @@ struct ContentView: View {
             }
         }
         showingAlert = true
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }
 
@@ -64,3 +59,9 @@ struct Facts: Identifiable, Codable {
     }
 }
 
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
